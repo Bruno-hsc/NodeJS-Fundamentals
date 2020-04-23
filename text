@@ -1,0 +1,108 @@
+https://github.com/Rocketseat/bootcamp-gostack-desafios/tree/master/desafio-fundamentos-nodejs
+
+1 - comecar pelas rotas, no post para criar a primeira transação.
+2 - passar os valores para o metado execute no service.
+3 - no rep, no metado create recuperar as inf no create,
+OBS: na interface CreateTransactionDTO, ela terá os mesmos tipos do service.
+
+4 - criar a rota get.
+5 - no repo criar o metado all.
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::
+- yarn init -y
+
+- yarn add express
+
+- yarn add typescript -D
+- yarn tsc --init
+criar o arq server.ts
+
+no arq tsconfig setar a conf rootDir como src(porq todos os arq typescript
+ficarão nessa pasta). E o outDir dist.
+
+- yarn tsc : vai converter o arq server dentro da pasta src pa a dist
+
+- yarn add @types/express -D
+
+- depois de alterar o arq server rodar: yarn tsc (para converter o codigo)
+
+- node dist/server.js
+
+- yarn add ts-node-dev -D : para rodar toda vez que salvar
+  -> yarn dev:server
+
+- editorConfig
+
+- eslint
+  yarn add eslint -D
+  yarn eslint --init
+    op 03
+    op 01
+    op 03
+    y
+    node
+    op 01
+    json
+
+- yarn add -D eslint-import-resolver-typescript
+- yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
+
+-> configurar  o arq de debud e rodar yarn dev:server
+
+- yarn add uuidv4
+
+- yarn add date-fns
+
+::: Repositorio:
+  conecção entre a persistencia dos dados e a rota:
+  <- persistencia <-> Repositorio <-> Rota
+  - dentro do repositorio é onde vamos buscar as inf que
+  estao persistidas dentro de um banco, var etc.
+  - geralmente teremos um repo por model.
+  - O repositorio é onde vamos fazer as alterações dos dados da aplicação.
+  - O rep é o que vai lidar com todos os dados, buscar dados,criar novos
+  dados.
+  - Lugar onde manipulamos o banco de dados.
+
+
+::: SoC: Separation of concerns - cada parte do codigo tem que ter apenas
+uma preocupação. Exp: arqvs de rota só rotas, repository editar arqv etc.
+
+
+::: DTO - Data Transfer Object(tranferir obj de dados) - quando passamos
+inf de um lugar para outro. Sempre que for transmitir dados de um lugar para
+outro, é bom usar obj. Usaremos parametros nomeados.
+
+::: Services - armazenar a regra de negocio da aplicação. Regras de negocios são
+quando esta fazendo algo muito expecifico na aplicação.
+  - OBS: cada serviço tem uma unica funcionalidade que sera no metado execute.
+  - execute: esse metado vai retornar o que esperamos da criação (no caso
+  post) de algum metado que estamos fazendo.
+  - Dentro do server apenas o que é regra de negocio.
+
+  - Recebimento das informações: receber o date e o provider, criaremos uma in
+  terface para receber atravez do DTO.
+
+  - Tratativa de erros/excessões: como o service nao tem acesso ao req e res,
+  vamos apenas realizar um throw.
+
+  - Dependecy Inversion: (sera usado para mais coisas n so para o service),
+  sempre que o service tiver uma dependencia externa(Exp: o
+  appointmenteRepository), vamos receber o appointmenteRepository como um param
+  do constructor(olhar o arq CreateAppointmentService.ts). Isso vai facilitar
+  porq nao importa quantos services diferentes estejam trabalhando com a parte
+  de appointment, todos eles estejam ultilizando o mesmo repo de appointmets e
+  nao repos diferentes criados em cada um dos services.
+
+  - no final do arq execultamos o service.
+
+  - Acesso ao repositorio.
+
+
+::: Rotas - devem se preocupar apenas com receber a req, chamar outro arq para
+tratar a req e devolver uma resposta.
+  - transformação de dados podemos deixar nas rotas como o parseISO.
+  - a rota tem uma unica obrigação: ela recebe req, repassa os dados dessa req
+  para um outro arq que pode ser um repositorio (no caso da rota get onde apenas
+  mostra uma resposta, nao altera nada) ou um service onte terá alteracões.
